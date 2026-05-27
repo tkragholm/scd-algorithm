@@ -17,7 +17,7 @@ Add it as a git dependency (pin a tag for reproducibility):
 
 ```toml
 [dependencies]
-scd = { git = "https://github.com/tkragholm/severe-chronic-disease-implementation", tag = "v0.1.0" }
+scd = { git = "https://github.com/tkragholm/scd-algorithm", tag = "v0.1.0" }
 chrono = { version = "0.4", features = ["serde"] }
 ```
 
