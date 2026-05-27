@@ -1,0 +1,22 @@
+[package]
+name = "scd"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.88"
+authors = ["Tobias Kragholm <tkragholm@gmail.com>"]
+description = "Canonical definition of severe chronic disease (SCD) classification from ICD-10 diagnosis codes."
+repository = "https://github.com/tkragholm/severe-chronic-disease-implementation"
+readme = "README.md"
+license = "MIT"
+# Private crate consumed via git dependency; never published to crates.io.
+publish = false
+
+[lib]
+name = "scd"
+
+[dependencies]
+chrono = { version = "0.4", features = ["serde"] }
+serde = { version = "1", features = ["derive"] }
+
+[dev-dependencies]
+serde_json = "1"
