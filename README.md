@@ -3,8 +3,8 @@
 The single, canonical, citable definition of how our research group identifies
 **severe chronic disease (SCD)** from ICD-10 diagnosis codes. It implements the
 published Danish paediatric SCD code list (Kristensen et al. 2012; Jensen et al.
-2019, 2022), with a small number of documented modifications — see
-[`REFERENCES.md`](REFERENCES.md) for the full provenance.
+2019, 2022) — see [`REFERENCES.md`](REFERENCES.md) for the full provenance and the
+few code-boundary differences from the published Table B.
 
 This crate is intentionally small and dependency-light (`chrono`, `serde`) so it
 can be shared, unchanged, across every project that needs the definition. It
@@ -71,7 +71,7 @@ category.
 | Gastrointestinal (`gastrointestinal`)   | `K21`, `K50`/`K51`, `K70`–`K77`, `K90`                                                                                                   |
 | Connective tissue (`connective_tissue`) | `M30`–`M35`                                                                                                                              |
 | Renal (`renal`)                         | `N03`–`N05`, `N07`, `N13`, `N18`/`N19`, `N25`–`N27`                                                                                      |
-| Perinatal (`perinatal`)                 | `P07`&dagger;, `P27`, `P57`, `P910`–`P912`, `P941`–`P949`                                                                                |
+| Perinatal (`perinatal`)                 | `P27`, `P57`, `P910`–`P912`, `P941`–`P949`                                                                                               |
 | Congenital (`congenital`)               | `Q01`–`Q07`, `Q20`–`Q26`, `Q30`–`Q37`, `Q39`, `Q40`–`Q44`, `Q450`–`Q453`, `Q60`–`Q64`, `Q790`, `Q792`/`Q793`, `Q860`, `Q87`, `Q90`–`Q99` |
 
 The authoritative, executable source is [`src/code_sets.rs`](src/code_sets.rs),
@@ -79,11 +79,8 @@ which encodes each condition explicitly; this table is a summary. The exact
 published code list and every difference from it are documented in
 [`REFERENCES.md`](REFERENCES.md).
 
-> &dagger; `P07` (disorders related to short gestation and low birth weight, not
-> elsewhere classified) is a deliberate addition in this implementation, beyond
-> the published Jensen 2019 Table B. See [`REFERENCES.md`](REFERENCES.md).
-
-> **Notable exclusions** (deliberately _not_ SCD): asthma `J45`, COPD `J44`
+> **Notable exclusions** (deliberately _not_ SCD): preterm / low birth weight
+> `P07`, asthma `J45`, COPD `J44`
 > except `J448`, type 2 diabetes `E11`, sickle-cell/thalassaemia/haemophilia
 > (`D55`–`D60`, `D66`, …), and rheumatoid arthritis `M05`/`M06`. Two conditions
 > are grouped by ICD chapter rather than clinical wording: hypertensive renal
@@ -91,8 +88,8 @@ published code list and every difference from it are documented in
 > _Perinatal_.
 
 Changing the definition means editing `src/code_sets.rs` (and recording any
-intentional divergence from the published list in `REFERENCES.md`, as done for
-`P07`), updating the tests that pin behaviour, and cutting a new tagged release.
+intentional divergence from the published list in `REFERENCES.md`), updating the
+tests that pin behaviour, and cutting a new tagged release.
 
 ## License
 

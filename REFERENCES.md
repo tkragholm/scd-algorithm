@@ -95,9 +95,8 @@ excluded "since the clinical presentation of such infections is very variable."
 
 This implementation encodes the conditions of the published list above and is
 locked against them by tests. Of the 48 conditions in Jensen 2019 Table B, **42
-are reproduced identically**; six differ at code boundaries (below) and one
-further condition (`P07`) is added. Every difference is pinned by a test, so it
-cannot change silently.
+are reproduced identically** and six differ at code boundaries (below). Every
+difference is pinned by a test, so it cannot change silently.
 
 ### Boundary differences from the published Table B
 
@@ -116,13 +115,13 @@ None of the 42 core conditions differ.
 
 ### Additions beyond the published list
 
-The conditions below are deliberately included by this implementation but appear
-in **neither** Kristensen 2012 nor Jensen 2019/2022 — a visible, intentional
-extension to the published definition.
+None. This implementation adds **no** conditions beyond Kristensen 2012 /
+Jensen 2019/2022.
 
-| ICD-10 codes | Diagnoses                                                                       | Category  | Added by   |
-| ------------ | ------------------------------------------------------------------------------- | --------- | ---------- |
-| P07          | Disorders related to short gestation and low birth weight, not elsewhere classified | Perinatal | this crate |
-
-Each addition is pinned by a dedicated test (`p07_is_perinatal_scd` in
-`src/code_sets.rs`), so removing or changing it is a deliberate, visible change.
+`P07` (disorders related to short gestation and low birth weight, not elsewhere
+classified) appears in **neither** published list and is **deliberately excluded**.
+An earlier version of this crate included it; it was removed because it
+over-captures preterm / low-birth-weight infants as severe chronic disease,
+inflating the perinatal category by an order of magnitude relative to the
+published definition. The exclusion is pinned by `p07_is_excluded_from_scd` in
+`src/code_sets.rs`, so re-adding it would be a deliberate, visible change.

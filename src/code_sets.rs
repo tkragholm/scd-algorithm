@@ -8,11 +8,10 @@
 //! ICD-10 range it captures, in ICD-10 chapter order.
 //!
 //! The criteria implement the published Danish paediatric SCD code list
-//! (Kristensen et al. 2012; Jensen et al. 2019, 2022), with a small number of
-//! deliberate, clearly-marked modifications — currently the inclusion of `P07`.
+//! (Kristensen et al. 2012; Jensen et al. 2019, 2022) without modification.
 //! `REFERENCES.md` records the source publications, the published code list, and
-//! every difference between this implementation and that list; each modification
-//! is pinned by a dedicated test.
+//! any difference between this implementation and that list; each difference is
+//! pinned by a dedicated test.
 //!
 //! The criteria are mutually exclusive by ICD-10 chapter, so every SCD code maps
 //! to exactly one [`DiseaseCategory`]; the categories follow the clinical
@@ -263,10 +262,10 @@ fn renal(d3: &str) -> Option<DiseaseCategory> {
 }
 
 /// Chronic conditions originating in the perinatal period (selected chapter XVI
-/// codes). `P07` is an addition beyond the published list — see `REFERENCES.md`.
+/// codes). Matches the published list exactly — `P07` (short gestation / low
+/// birth weight) is deliberately excluded; see `REFERENCES.md`.
 fn perinatal(d3: &str, d4: &str) -> Option<DiseaseCategory> {
-    let hit = d3 == "P07" // short gestation / low birth weight, NEC (addition)
-        || d3 == "P27" // chronic respiratory disease originating perinatally
+    let hit = d3 == "P27" // chronic respiratory disease originating perinatally
         || d3 == "P57" // kernicterus
         || matches!(d4, "P910" | "P911" | "P912") // disturbances of cerebral status of newborn
         || ("P941"..="P949").contains(&d4); // disorders of muscle tone of newborns
@@ -415,15 +414,19 @@ mod tests {
     }
 
     #[test]
-    fn p07_is_perinatal_scd() {
-        // P07 (short gestation / low birth weight, NEC) is a deliberate addition
-        // beyond the published Jensen 2019 code list; see REFERENCES.md.
+    fn p07_is_excluded_from_scd() {
+        // P07 (short gestation / low birth weight, NEC) is NOT part of the
+        // published Jensen 2019 code list and is deliberately excluded; including
+        // it would over-capture preterm/low-birth-weight infants. See REFERENCES.md.
         let codes = ScdDiagnosisCodeSet::new();
-        assert_eq!(codes.category_of("DP07"), Some(DiseaseCategory::Perinatal));
-        assert_eq!(codes.category_of("DP070"), Some(DiseaseCategory::Perinatal));
-        assert_eq!(codes.category_of("DP073"), Some(DiseaseCategory::Perinatal));
-        // P08 (long gestation / high birth weight) is *not* included.
+        assert_eq!(codes.category_of("DP07"), None);
+        assert_eq!(codes.category_of("DP070"), None);
+        assert_eq!(codes.category_of("DP073"), None);
+        // P08 (long gestation / high birth weight) is likewise not included.
         assert_eq!(codes.category_of("DP08"), None);
+        // The genuine perinatal codes still qualify.
+        assert_eq!(codes.category_of("DP27"), Some(DiseaseCategory::Perinatal));
+        assert_eq!(codes.category_of("DP57"), Some(DiseaseCategory::Perinatal));
     }
 
     #[test]
