@@ -16,7 +16,7 @@ name = "scd"
 
 [dependencies]
 # Git revision until epistat-register is released with the icd10 module.
-epistat-register = { git = "https://github.com/tkragholm/epistat", rev = "a6068fe6d8eece35b88aa71866f449c2aa8ab62a", features = ["serde"] }
+epistat-register = { git = "https://github.com/tkragholm/epistat", rev = "b1198bfd38873e053b411578dd44d70723abab29", features = ["serde"] }
 chrono = { version = "0.4", features = ["serde"] }
 serde = { version = "1", features = ["derive"] }
 
